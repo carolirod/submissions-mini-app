@@ -21,6 +21,8 @@
 }
 
 .App-header {
+	display: flex;
+	align-items: center;
   min-height: 5vh;
 }
 

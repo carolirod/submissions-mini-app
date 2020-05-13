@@ -1,28 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { css } from 'styled-components';
 import 'styled-components/macro';
-import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
+import TextField from '@material-ui/core/TextField';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import Button from '@material-ui/core/Button';
 
 import CustomList from '../CustomList';
 import getAnswers from '../../data/utils';
-
-const styles = css`
-	padding: 1rem;
-	background-color: #fff;
-`;
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		'& > *': {
-			marginTop: theme.spacing(2),
-		},
-	},
-}));
+import styles from './styles';
 
 const SubmissionsList = () => {
-	const classes = useStyles();
 	const answerItems = getAnswers();
 
 	/** Pagination */
@@ -42,33 +29,62 @@ const SubmissionsList = () => {
 		));
 	};
 
+	/** Filter by address */
+	const [addressFilter, setAddressFilter] = useState('');
+	const handleAddressChange = (e) => {
+		setAddressFilter(e.target.value);
+	};
+
+	/** Order by date */
+	const [dateOrderDescending, setDateOrderDescending] = useState(true);
+	const handleOrderByDate = () => {
+		setDateOrderDescending(!dateOrderDescending);
+	};
+
 	return (
 		<div css={styles}>
+			<div className="filters">
+				<TextField
+					id="standard-basic"
+					variant="filled"
+					label="Search by address"
+					onChange={handleAddressChange}
+				/>
+
+				<Button
+					variant="contained"
+					color="primary"
+					endIcon={<ArrowDownwardIcon fontSize="inherit">arrow down</ArrowDownwardIcon>}
+					onClick={handleOrderByDate}
+					className={`order-date-btn ${!dateOrderDescending && 'js-arrow-up'}`}
+				>
+					Order by date
+				</Button>
+			</div>
+
 			<CustomList
+				className="custom-list"
 				items={currentItems}
 				keyTopFirstCol="address"
+				filterTopFirstColBy={addressFilter}
 				keyTopSecondCol="date"
+				orderDescendingTopSecondCol={dateOrderDescending}
 				keyBottomFirstCol="question"
 				keyBottomSecondCol="answer"
 			/>
-			<div className={classes.root}>
-				<Pagination
-					count={totalPages}
-					variant="outlined"
-					color="secondary"
-					showFirstButton
-					showLastButton
-					page={page}
-					size="small"
-					onChange={handlePageChange}
-				/>
-			</div>
+
+			<Pagination
+				count={totalPages}
+				variant="outlined"
+				color="secondary"
+				showFirstButton
+				showLastButton
+				page={page}
+				size="small"
+				onChange={handlePageChange}
+			/>
 		</div>
 	);
-};
-
-SubmissionsList.propTypes = {
-
 };
 
 export default SubmissionsList;

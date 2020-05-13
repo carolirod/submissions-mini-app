@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'styled-components';
 import 'styled-components/macro';
@@ -14,6 +14,12 @@ const listWidth = 600;
 const styles = css`
 	.MuiListItem-root {
 		flex-wrap: wrap;
+		opacity: 0.7;
+		transition: opacity .2s ease-out;
+
+		:hover {
+			opacity: 1;
+		}
 	}
 
 	.row {
@@ -39,19 +45,35 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CustomList = ({ items, keyTopFirstCol, keyTopSecondCol, keyBottomFirstCol, keyBottomSecondCol }) => {
+const CustomList = ({ className,
+	items,
+	keyTopFirstCol,
+	keyTopSecondCol,
+	keyBottomFirstCol,
+	keyBottomSecondCol,
+	filterTopFirstColBy,
+	orderDescendingTopSecondCol,
+}) => {
 	const classes = useStyles();
 
+	useEffect(() => {
+		console.log(filterTopFirstColBy);
+		// update items when the filter changes
+	}, [filterTopFirstColBy]);
+
+	useEffect(() => {
+		// order items by date
+		console.log(orderDescendingTopSecondCol);
+	}, [orderDescendingTopSecondCol]);
+
 	return (
-		<div className={classes.root} css={styles}>
+		<div className={`${classes.root} ${className}`} css={styles}>
 			<List
 				width={listWidth}
 			>
 				{items.map((item, index) => (
 					<Fragment key={index}>
-						<ListItem
-							button
-						>
+						<ListItem>
 							<div className="row topRow">
 								{keyTopFirstCol &&
 									<ListItemText primary={item[keyTopFirstCol]} />

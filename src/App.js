@@ -16,7 +16,11 @@ const theme = createMuiTheme({
 		},
 		text: {
 			secondary: '#fff',
+		},
+		action: {
+			active: '#fff',
 		}
+		// contrast: #F4D35E
 	},
 });
 
@@ -25,8 +29,8 @@ function App() {
 		<ThemeProvider theme={theme}>
 			<div className="App">
 				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
 					<h1>Dive into the submissions</h1>
+					<img src={logo} className="App-logo" alt="logo" />
 				</header>
 				<main>
 					<SubmissionsList />
