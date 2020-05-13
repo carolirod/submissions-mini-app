@@ -5,8 +5,8 @@ import 'styled-components/macro';
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 
-import List from '../List';
-import submissions from '../../data/Submission.json';
+import CustomList from '../CustomList';
+import getAnswers from '../../data/utils';
 
 const styles = css`
 	padding: 1rem;
@@ -23,26 +23,33 @@ const useStyles = makeStyles((theme) => ({
 
 const SubmissionsList = () => {
 	const classes = useStyles();
+	const answerItems = getAnswers();
+
+	/** Pagination */
 	const pageSize = 10;
-	const [currentItems, setCurrentItems] = useState(submissions.slice(0, pageSize));
+	let totalPages = Math.floor(answerItems.length / pageSize);
+	const remainder = answerItems.length % pageSize;
+	if (remainder) totalPages += 1;
 	const [page, setPage] = useState(1);
-	const totalPages = submissions.length / 10;
+	const [currentItems, setCurrentItems] = useState(answerItems.slice(0, pageSize));
 
 	const handlePageChange = (event, value) => {
 		/** Update page in pagination component */
 		setPage(value);
 		/** Update items showing in list */
-		setCurrentItems(submissions.slice(
+		setCurrentItems(answerItems.slice(
 			(value - 1) * pageSize, value * pageSize
 		));
 	};
 
 	return (
 		<div css={styles}>
-			<List
+			<CustomList
 				items={currentItems}
-				keyFirstCol="Address"
-				keySecondCol="Date"
+				keyTopFirstCol="address"
+				keyTopSecondCol="date"
+				keyBottomFirstCol="question"
+				keyBottomSecondCol="answer"
 			/>
 			<div className={classes.root}>
 				<Pagination

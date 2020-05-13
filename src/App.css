@@ -10,7 +10,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
   pointer-events: none;
 }
 
@@ -25,7 +25,7 @@
 }
 
 main {
-	padding: 5rem;
+	padding: 0 2.4rem 2.4rem;
 }
 
 .App-link {
