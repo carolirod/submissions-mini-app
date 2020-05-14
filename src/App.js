@@ -1,7 +1,6 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
 
 import SubmissionsList from './components/SubmissionsList';
 import logo from './logo.svg';
@@ -19,8 +18,6 @@ const theme = createMuiTheme({
 			primary: '#fff',
 			secondary: '#46B1C9',
 		},
-		// extra color just in case
-		// '#F4D35E'
 	},
 	typography: {
 		htmlFontSize: 18,

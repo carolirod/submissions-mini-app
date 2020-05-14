@@ -6,8 +6,11 @@
  * @return {Array} list with items containing 'text'
  */
 export const filterArrayBy = (array, text) => {
+	const regex = new RegExp(text, 'gi');
+
 	return array.filter((item) => {
-		return item.address.match(new RegExp(text, 'gi'));
+		const matches = item.address.match(regex);
+		return matches;
 	});
 };
 

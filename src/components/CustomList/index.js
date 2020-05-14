@@ -47,7 +47,17 @@ const CustomList = ({ className,
 		/** on Search by address, update items list */
 		const filtered = filterArrayBy(items, filterTopFirstColBy);
 
-		if (filtered.length) setDisplayedItems(filtered);
+		const text = filterTopFirstColBy;
+		const regex = new RegExp(text, 'gi');
+
+		// FIX. replacing with lowercase letters when not supposed to
+		filtered.forEach(
+			(item) => text ? (item.displayAddress = item.address.replace(regex, `<span class="js-highlight">${text}</span>`)
+			) : (
+				item.displayAddress = item.address
+			));
+
+		if (filtered && filtered.length) setDisplayedItems(filtered);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filterTopFirstColBy, items]);
@@ -56,7 +66,7 @@ const CustomList = ({ className,
 		/** order items by date */
 		const ordered = orderArrayByDate(displayedItems, orderDescendingTopSecondCol, 'date');
 
-		if (ordered.length) setDisplayedItems(ordered);
+		if (ordered && ordered.length) setDisplayedItems(ordered);
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [orderDescendingTopSecondCol, displayedItems]);
@@ -74,8 +84,10 @@ const CustomList = ({ className,
 								{keyTopFirstCol &&
 									<ListItemText
 										className="row-top__first-col"
-										primary={item[keyTopFirstCol]}
-									/>
+										// primary={item[keyTopFirstCol]}
+									>
+										<div dangerouslySetInnerHTML={{ __html: item[keyTopFirstCol] }} />
+									</ListItemText>
 								}
 								{keyTopSecondCol &&
 									<ListItemText

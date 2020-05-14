@@ -105,7 +105,7 @@ const SubmissionsList = () => {
 						<CustomList
 							className="custom-list"
 							items={currentItems}
-							keyTopFirstCol="address"
+							keyTopFirstCol="displayAddress"
 							filterTopFirstColBy={addressFilter}
 							keyTopSecondCol="date"
 							orderDescendingTopSecondCol={dateOrderDescending}

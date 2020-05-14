@@ -25,6 +25,11 @@ export default css`
 		flex: 1 1 100%;
 	}
 
+	.row-top__first-col .js-highlight {
+		color: #292c34;
+		background-color: #F4D35E;
+	}
+
 	.row-top__second-col {
 		text-align: right;
 	}

@@ -44,6 +44,7 @@ const getAnswers = () => {
 			answerId: SubissionAnswerId,
 			submissionId: SubmissionId,
 			address,
+			displayAddress: address,
 			date,
 			question,
 			answer: Text,
