@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'styled-components/macro';
 import Pagination from '@material-ui/lab/Pagination';
 import TextField from '@material-ui/core/TextField';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomList from '../CustomList';
 import getAnswers from '../../data/utils';
@@ -11,6 +12,22 @@ import styles from './styles';
 
 const SubmissionsList = () => {
 	const answerItems = getAnswers();
+
+	/** Load data */
+	const [loaded, setLoaded] = useState(false);
+	const [loading, setLoading] = useState(false);
+
+	const startLoading = () => {
+		setLoading(true);
+
+		setTimeout(() => {
+			setLoaded(true);
+		}, 600);
+	};
+
+	useEffect(() => {
+		if (loaded) setLoading(false);
+	}, [loaded]);
 
 	/** Pagination */
 	const pageSize = 10;
@@ -43,46 +60,72 @@ const SubmissionsList = () => {
 
 	return (
 		<div css={styles}>
-			<div className="filters">
-				<TextField
-					id="standard-basic"
-					variant="filled"
-					label="Search by address"
-					onChange={handleAddressChange}
-				/>
+			{
+				(!loaded && !loading) && (
+					<Button
+						variant="contained"
+						onClick={startLoading}
+					>
+						Load the Submissions
+					</Button>
+				)
+			}
 
-				<Button
-					variant="contained"
-					color="primary"
-					endIcon={<ArrowDownwardIcon fontSize="inherit">arrow down</ArrowDownwardIcon>}
-					onClick={handleOrderByDate}
-					className={`order-date-btn ${!dateOrderDescending && 'js-arrow-up'}`}
-				>
-					Order by date
-				</Button>
-			</div>
+			{
+				loading && (
+					<CircularProgress color="secondary" />
+				)
+			}
 
-			<CustomList
-				className="custom-list"
-				items={currentItems}
-				keyTopFirstCol="address"
-				filterTopFirstColBy={addressFilter}
-				keyTopSecondCol="date"
-				orderDescendingTopSecondCol={dateOrderDescending}
-				keyBottomFirstCol="question"
-				keyBottomSecondCol="answer"
-			/>
+			{
+				loaded && (
+					<>
+						<div className="filters">
+							<TextField
+								id="standard-basic"
+								variant="filled"
+								color="secondary"
+								size="small"
+								label="Search by address"
+								onChange={handleAddressChange}
+							/>
 
-			<Pagination
-				count={totalPages}
-				variant="outlined"
-				color="secondary"
-				showFirstButton
-				showLastButton
-				page={page}
-				size="small"
-				onChange={handlePageChange}
-			/>
+							<Button
+								variant="contained"
+								color="secondary"
+								endIcon={<ArrowDownwardIcon fontSize="inherit">arrow down</ArrowDownwardIcon>}
+								size="large"
+								onClick={handleOrderByDate}
+								className={`order-date-btn ${!dateOrderDescending && 'js-arrow-up'}`}
+							>
+								By date
+								</Button>
+						</div>
+
+						<CustomList
+							className="custom-list"
+							items={currentItems}
+							keyTopFirstCol="address"
+							filterTopFirstColBy={addressFilter}
+							keyTopSecondCol="date"
+							orderDescendingTopSecondCol={dateOrderDescending}
+							keyBottomFirstCol="question"
+							keyBottomSecondCol="answer"
+						/>
+
+						<Pagination
+							count={totalPages}
+							variant="outlined"
+							color="secondary"
+							showFirstButton
+							showLastButton
+							page={page}
+							size="small"
+							onChange={handlePageChange}
+						/>
+					</>
+				)
+			}
 		</div>
 	);
 };
