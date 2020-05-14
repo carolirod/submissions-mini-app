@@ -32,7 +32,7 @@ export default css`
 
 	.order-date-btn {
 		svg {
-			transition: transform .2s ease-in-out;
+			transition: transform .2s cubic-bezier(0.6, 0, 0.3, 1);;
 		}
 
 		&.js-arrow-up svg {
@@ -42,5 +42,27 @@ export default css`
 
 	.MuiPaginationItem-outlined {
 		border-color: rgba(255, 255, 255, 0.4);
+	}
+
+	.load {
+		margin: 4rem;
+	}
+
+	.load-btn {
+		animation: pulse 2s infinite cubic-bezier(0.6, 0, 0.3, 1);
+	}
+
+	@keyframes pulse {
+		0% {
+			transform: scaleX(1);
+		}
+
+		50% {
+			transform: scale3d(1.05, 1.05, 1.05);
+		}
+
+		100% {
+			transform: scaleX(1);
+		}
 	}
 `;

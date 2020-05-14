@@ -60,11 +60,36 @@ const SubmissionsList = () => {
 
 	return (
 		<div css={styles}>
+			<div className="filters">
+				<TextField
+					id="standard-basic"
+					variant="filled"
+					color="secondary"
+					size="small"
+					label="Search by address"
+					onChange={handleAddressChange}
+					disabled={!loaded}
+				/>
+
+				<Button
+					variant="contained"
+					color="secondary"
+					endIcon={<ArrowDownwardIcon fontSize="inherit">arrow down</ArrowDownwardIcon>}
+					size="large"
+					onClick={handleOrderByDate}
+					className={`order-date-btn ${!dateOrderDescending && 'js-arrow-up'}`}
+					disabled={!loaded}
+				>
+					By date
+				</Button>
+			</div>
+
 			{
 				(!loaded && !loading) && (
 					<Button
 						variant="contained"
 						onClick={startLoading}
+						className="load load-btn"
 					>
 						Load the Submissions
 					</Button>
@@ -73,35 +98,13 @@ const SubmissionsList = () => {
 
 			{
 				loading && (
-					<CircularProgress color="secondary" />
+					<CircularProgress className="load" color="secondary" />
 				)
 			}
 
 			{
 				loaded && (
 					<>
-						<div className="filters">
-							<TextField
-								id="standard-basic"
-								variant="filled"
-								color="secondary"
-								size="small"
-								label="Search by address"
-								onChange={handleAddressChange}
-							/>
-
-							<Button
-								variant="contained"
-								color="secondary"
-								endIcon={<ArrowDownwardIcon fontSize="inherit">arrow down</ArrowDownwardIcon>}
-								size="large"
-								onClick={handleOrderByDate}
-								className={`order-date-btn ${!dateOrderDescending && 'js-arrow-up'}`}
-							>
-								By date
-								</Button>
-						</div>
-
 						<CustomList
 							className="custom-list"
 							items={currentItems}
